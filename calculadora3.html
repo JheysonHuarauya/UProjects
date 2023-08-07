@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .calculator {
+            width: 300px;  /* ancho de la calculadora  */
+            margin: 0 auto;
+            padding: 40px; /* largo o alto de la calculadora*/
+            border: 10px solid #ccc; /* ancho del borde del cuadro de la calculadora*/
+        }
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px; /* tamaño de los teclados o botones de la calculadora*/
+            margin-top: 10px; /*es la separacion o para la posición de los teclados respecto a los espacion de entrada de datos*/
+        }
+        .button {
+            width: 60px; /* separacion de los teclados*/
+            height: 60px; /* Largo de los*/
+            font-size: 20px; /* tamaño de las letras de los botones*/
+            cursor: pointer;
+            background-color: #f2f2f2;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #ddd;
+        }
+        .input-field {
+            width: 100%;  /*largo de los espacios de entrada */
+            font-size: 20px; /* ancho de los espacios de entrada*/
+            padding: 5px;
+            margin-bottom: 10px; /*separacion entre los espacios de entrada de datos y los botones*/
+        }
+        .answer {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        .button.lightblue { background-color: #87CEEB; }
+        .button.orange { background-color: #44ff00; }
+        .button.red { background-color: #ff6600; }
+        .button.green { background-color: #3676c9; }
+        .button.purple { background-color: #10e9c1; }
+        .button.pink { background-color: #0af741; }
+        .button.teal { background-color: #edfd0690; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Calculadora</h2>
+        <input type="text" id="primerNumero" class="input-field" placeholder="Ingresa el primer número">
+        <input type="text" id="operador" class="input-field" placeholder="Operación">
+        <input type="text" id="segundoNumero" class="input-field" placeholder="Ingresa el segundo número">
+        <div class="button-container">
+            <button class="button teal" onclick="agregarAlInput('7')">7</button> 
+            <button class="button teal" onclick="agregarAlInput('8')">8</button>
+            <button class="button teal" onclick="agregarAlInput('9')">9</button>
+            <button class="button pink" onclick="asignarOperador('/')">/</button>
+            <button class="button teal" onclick="agregarAlInput('4')">4</button>
+            <button class="button teal" onclick="agregarAlInput('5')">5</button>
+            <button class="button teal" onclick="agregarAlInput('6')">6</button>
+            <button class="button pink" onclick="asignarOperador('*')">*</button>
+            <button class="button teal" onclick="agregarAlInput('1')">1</button>
+            <button class="button teal" onclick="agregarAlInput('2')">2</button>
+            <button class="button teal" onclick="agregarAlInput('3')">3</button>
+            <button class="button pink" onclick="asignarOperador('-')">-</button>
+            <button class="button lightblue" onclick="agregarAlInput('0')">0</button>
+            <button class="button red" onclick="limpiarInput()">C</button>
+            <button class="button green" onclick="calcular()">=</button>
+            <button class="button purple" onclick="asignarOperador('+')">+</button>
+        </div>
+        <p class="answer" id="respuesta"></p>
+    </div>
+
+    <script>
+        const primerNumeroInput = document.getElementById('primerNumero');
+        const operadorInput = document.getElementById('operador');
+        const segundoNumeroInput = document.getElementById('segundoNumero');
+        const respuestaElemento = document.getElementById('respuesta');
+
+        function agregarAlInput(valor) {
+            if (operadorInput.value === '') {
+                primerNumeroInput.value += valor;
+            } else {
+                segundoNumeroInput.value += valor;
+            }
+        }
+
+        function asignarOperador(valor) {
+            operadorInput.value = valor;
+        }
+
+        function limpiarInput() {
+            primerNumeroInput.value = '';
+            operadorInput.value = '';
+            segundoNumeroInput.value = '';
+            respuestaElemento.textContent = '';
+        }
+
+        function calcular() {
+            try {
+                const primerNumero = parseFloat(primerNumeroInput.value);
+                const segundoNumero = parseFloat(segundoNumeroInput.value);
+                const operador = operadorInput.value;
+                if (!isNaN(primerNumero) && !isNaN(segundoNumero) && operador) {
+                    const resultado = evaluarExpresion(primerNumero, operador, segundoNumero);
+                    respuestaElemento.textContent = `Respuesta: ${resultado}`;
+                } else {
+                    respuestaElemento.textContent = 'Ingrese datos válidos.';
+                }
+            } catch (error) {
+                respuestaElemento.textContent = 'Error';
+            }
+        }
+
+        function evaluarExpresion(primerNumero, operador, segundoNumero) {
+            switch (operador) {
+                case '+':
+                    return primerNumero + segundoNumero;
+                case '-':
+                    return primerNumero - segundoNumero;
+                case '*':
+                    return primerNumero * segundoNumero;
+                case '/':
+                    return primerNumero / segundoNumero;
+                default:
+                    return NaN;
+            }
+        }
+    </script>
+</body>
+</html>
