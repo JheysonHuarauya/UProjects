@@ -1,2 +1,2 @@
 # Jheyson-HR
-Proyects
+Calculadora simple que consta con operaciones basicas.
